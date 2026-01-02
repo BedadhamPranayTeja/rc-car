@@ -36,17 +36,47 @@ Since you are using a **5V Power Bank**, we need to ensure the L298N gets power 
 
 > **Note**: Ensure the 5V jumper on the L298N is **ON** (if it has one) to enable the internal 5V regulator, though with 5V input it mostly just passes through logic voltage.
 
-## 💻 Software Setup
+## 💻 Software Setup (Detailed Guide)
 
-1.  **Install ESP8266 Board Manager**:
-    *   Open Arduino IDE -> Preferences.
-    *   Add URL: `http://arduino.esp8266.com/stable/package_esp8266com_index.json`
-    *   Tools -> Board -> Boards Manager -> Install `esp8266`.
+### 1. Install Arduino IDE
+If you haven't already, download and install the legacy **Arduino IDE** or the new **IDE 2.0** from the [official website](https://www.arduino.cc/en/software).
 
-2.  **Upload Code**:
-    *   Open `rc_car_esp8266.ino`.
-    *   Select Board: `NodeMCU 1.0 (ESP-12E Module)` (or whichever you have).
-    *   Select Port and Click **Upload**.
+### 2. Install ESP8266 Board Support
+The Arduino IDE doesn't know about ESP8266 by default. We need to teach it:
+1.  Open Arduino IDE.
+2.  Go to **File** > **Preferences** (Windows/Linux) or **Arduino IDE** > **Settings** (macOS).
+3.  Find the field named **"Additional Boards Manager URLs"**.
+4.  Paste this URL into the box:
+    `http://arduino.esp8266.com/stable/package_esp8266com_index.json`
+    *(If there is already text there, add a comma `,` before pasting this new link).*
+5.  Click **OK**.
+6.  Go to **Tools** > **Board** > **Boards Manager...**
+7.  In the search bar, type `esp8266`.
+8.  Find **"esp8266 by ESP8266 Community"** and click **Install**.
+
+### 3. Install USB Drivers (Critical Step)
+Most affordable ESP8266 boards (NodeMCU / D1 Mini) use the **CH340G** USB-to-Serial chip. Windows/Mac might not recognize it automatically.
+*   **Check**: Plug in your board. If you don't see a new COM port in `Tools > Port`, you likely need the driver.
+*   **Solution**: Download and install the **CH340 Driver** (Google "CH340 driver" or find a reputable source).
+*   *Note: Some high-quality boards use the CP2102 chip, which usually works automatically.*
+
+### 4. Configure & Upload Code
+1.  Open `rc_car_esp8266.ino` from this folder in Arduino IDE.
+2.  Connect your ESP8266 to your computer with a **Data-capable MicroUSB cable** (some cables are charge-only!).
+3.  **Select Board**: Go to `Tools > Board > ESP8266 Boards` and choose:
+    *   **NodeMCU 1.0 (ESP-12E Module)** (Most common for NodeMCU)
+    *   **LOLIN(WEMOS) D1 R2 & mini** (If using D1 Mini)
+    *   *If unsure, Generic ESP8266 Module often works but specific is better.*
+4.  **Select Port**: Go to `Tools > Port` and pick the new COM port that appeared (e.g., `COM3`, `COM5`, `/dev/cu.usbserial...`).
+5.  **Upload**: Click the **Arrow Icon (➜)** in the top-left corner.
+    *   The IDE will compile the code and transfer it to the board.
+    *   Wait for **"Done uploading"** message at the bottom.
+
+### ⚠️ Troubleshooting Uploads
+If you see `Connecting........_____.....` and it fails:
+1.  **Hold** the **FLASH** button on your ESP8266 board.
+2.  While holding FLASH, press and release the **RST** (Reset) button once.
+3.  Wait until the upload starts in the IDE, then release the **FLASH** button.
 
 ## 🎮 How to Drive
 
