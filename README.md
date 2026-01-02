@@ -85,3 +85,20 @@ If you see `Connecting........_____.....` and it fails:
 3.  Connect to **`RC-Car-ESP`** (Password: `12345678`).
 4.  Open a browser (Chrome/Safari) and go to: **`http://192.168.4.1`**
 5.  Use the on-screen buttons to drive!
+
+## 🔧 Troubleshooting Movement (If it doesn't move)
+
+### 1. ⚠️ The ENA and ENB Jumpers (CRITICAL)
+You mentioned **ENA** and **ENB** are "left open". **This is why it's not moving!**
+*   **What they do**: These pins enable the power to the motors. If they are unconnected, the motors are OFF.
+*   **The Fix**: You **MUST connect ENA and ENB to 5V**.
+    *   **Option A (Easiest)**: Put the **black plastic jumper caps** back on the ENA/ENB pins (they connect the pin to the 5V neighbor).
+    *   **Option B**: Use a wire to connect **ENA** to a **5V** source, and **ENB** to a **5V** source.
+
+### 2. Common Ground (Essential)
+Even with one Power Bank, the "Reference Voltage" (0V) can drift if not connected.
+*   **The Fix**: Use a jumper wire to connect a **GND pin on the L298N** to a **GND pin on the ESP8266**.
+
+### 3. Verification
+*   The ESP "blinking" means code is running.
+*   Once you add the Jumpers/5V to ENA/ENB, the motors should spring to life!
